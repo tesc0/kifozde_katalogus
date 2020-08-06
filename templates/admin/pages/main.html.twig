@@ -1,0 +1,77 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block header %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+            crossorigin=""></script>
+{% endblock %}
+
+{% block content %}
+    <section>
+        <section class="container home-link">
+            <a href="{{ url("admin_logout") }}">Kijelentkezés</a>
+        </section>
+        <div class="container eating-house-profile">
+            <h1>Üdv {{ user.username }}!</h1>
+
+            {%  if (eating_house is not empty) %}
+            <div class="level">
+                <div class="level-left">
+                    <p class="introduction">{{ eating_house.introduction }}</p>
+                </div>
+                <div class="level-right">
+                    <div class="info">
+                        <p>
+                            <strong>Címünk:</strong> {{ eating_house.zip }}, {{ eating_house.district }}. kerület, {{ eating_house.address }}<br>
+                            <strong>Kapcsolattartó:</strong> {{ eating_house.contact }}<br>
+                            <strong>Telefon:</strong> {{ eating_house.phone }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+
+
+
+            <div class="level">
+                <div class="level-left">
+                    <a href="/admin/eating_house">Kifőzde adatai és beállítása</a>
+                </div>
+                <div class="level-right">
+                    <a href="/admin/menu">Menü megtekintése és módosítása</a>
+                </div>
+            </div>
+            {% else %}
+
+                <a href="{{ url("add_new_eating_house") }}">Étkezde hozzáadása</a>
+
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+
+    <script>
+        {%  if (eating_house is not empty) %}
+        var mymap = L.map('map').setView([{{ eating_house.latitude }}, {{ eating_house.longitude }}], 13);
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoidGVzY28tIiwiYSI6ImNrOWEwbDk0dzBtcTgzZ3BsZDlwd2huNWYifQ.xbmMtFrDY6gb31lMXfCpSA', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1IjoidGVzY28tIiwiYSI6ImNrOWEwbDk0dzBtcTgzZ3BsZDlwd2huNWYifQ.xbmMtFrDY6gb31lMXfCpSA'
+        }).addTo(mymap);
+        var marker = L.marker([{{ eating_house.latitude }}, {{ eating_house.longitude }}]).addTo(mymap);
+        {%  endif  %}
+    </script>
+{% endblock %}

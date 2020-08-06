@@ -1,0 +1,55 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block content %}
+    <section>
+        <div class="container">
+    <h1>ADMIN Index</h1>
+    <p class="important">
+        Welcome on my awesome admin homepage.
+    </p>
+
+            <form action="" method="post">
+                <div class="field">
+                    <label for="" class="label">E-mail</label>
+                    <div class="control">
+                        <input type="text" class="input" name="email" id="admin_login_email" value="a@a.hu">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">Jelszó</label>
+                    <div class="control">
+                        <input type="password" class="input" name="password" id="admin_login_password" value="test">
+                    </div>
+                </div>
+                <div class="field signup">
+                    <label for="" class="label">Jelszó ismét</label>
+                    <div class="control">
+                        <input type="password" class="input" name="password_again" id="admin_signup_password" value="test">
+                    </div>
+                </div>
+                <div class="field signup">
+                    <label for="" class="label">Felhasználónév</label>
+                    <div class="control">
+                        <input type="text" class="input" name="username" id="admin_signup_username" value="testname">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-primary admin-login" type="button">Bejelentkezés</button>
+                        <button class="button is-link admin-signup" type="button">Új regisztráció</button>
+                    </div>
+                </div>
+                <article class="message">
+                    <div class="message-header">
+                        <p></p>
+                    </div>
+                    <div class="message-body">
+
+                    </div>
+                </article>
+
+            </form>
+
+        </div>
+    </section>
+{% endblock %}

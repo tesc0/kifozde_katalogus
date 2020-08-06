@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block header %}
+        <link rel="stylesheet" href="/assets/css/bulma.min.css" />
+        <link rel="stylesheet" href="/assets/css/style.css?ver={{ 'now'|date('U') }}" />
+            <link rel="stylesheet" href="/assets/css/animate.css" />
+        <link rel="icon" href="/assets/css/favicon.ico" />
+        <title>{% block title %}{% endblock %} - My Webpage</title>
+    {% endblock %}
+</head>
+<body>
+<div id="content">{% block content %}{% endblock %}</div>
+<div id="footer">
+    {% block footer %}
+
+    {% endblock %}
+</div>
+    {% block script %}
+        <script src="/assets/js/admin_script.js?ver={{ 'now'|date('U') }}"></script>
+    {% endblock %}
+</body>
+</html>

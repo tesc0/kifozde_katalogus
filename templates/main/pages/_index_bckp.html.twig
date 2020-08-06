@@ -1,0 +1,223 @@
+{% extends "main/layout.html.twig" %}
+
+{% block header %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+            crossorigin=""></script>
+{% endblock %}
+
+{% block content %}
+    <section class="container home-link">
+        <a href="{{ url("admin_index") }}">Adminisztráció</a>
+    </section>
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container">
+                <div class="has-text-centered">
+                    <img src="/assets/img/google_logo.png">
+                    <div class="google-input-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="google_input" name="google_input">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container home">
+
+            <p>
+                Üdvözlünk a kifőzde katalógusunkon!
+                <br>
+                <br>
+                Ha új helyen töltöttük a napot, mindig keresgélni kellett, hol tudunk ebédelni, így arra gondoltunk, hasznos lenne egy csoportosító felület.
+            </p>
+
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+
+            <h2>A kifőzdék</h2>
+
+            <div class="filter-container columns">
+                <div class="column">Szűrés / keresés</div>
+                <div class="column is-2">
+                    <input type="text" class="input filter name" placeholder="Név">
+                </div>
+                <div class="column is-2">
+                    <input type="number" class="input filter district" min="1" max="23" placeholder="Kerület">
+                </div>
+                <div class="column is-1 has-text-right">
+                    <button class="button is-info is-light" type="button" id="search"><i class="fas fa-search"></i>&nbsp;Mehet</button>
+                </div>
+            </div>
+            <hr>
+            <div class="eating-houses-list" id="eating-houses-list">
+
+                {% for house in eating_houses %}
+
+                    <div class="eating-house-details">
+                        <div class="level">
+                            <div class="level-left">
+                                <div class="eating-house-title">
+                                    <i class="fas fa-home"></i>&nbsp;{{ house.name }}
+                                    <br>
+                                    <i class="fas fa-map-marked-alt"></i> {{ house.address }}
+                                </div>
+                            </div>
+                            <div class="level-right">
+                                <div class="eating-house-contact">
+                                    <i class="fas fa-phone"></i>&nbsp;<a href="tel:{{ house.phone }}">{{ house.phone }}</a>
+                                    <br>
+                                    <i class="fas fa-globe"></i>&nbsp;<a href="{{ house.website }}" target="_blank">{{ house.website }}</a></div>
+                            </div>
+                        </div>
+                        <div class="introduction">
+                            {{ house.introduction }}
+                        </div>
+                        <div>
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="level current-menu">
+                            <div class="level-item menu">
+
+                                <div class="contact" :data-id="user.id" v-for="user in users" v-bind:key="user">
+
+                                    <div class="contact-header text-center">${ user.firstname } ${ user.lastname }</div>
+                                    <div class="contact-info text-center">
+                                        ${ user.email }
+                                        <br>
+                                        ${ user.phone }
+                                    </div>
+
+
+                                </div>
+
+                                <div class="level-item" v-for="meals in menu" v-bind:key="meals">
+                                    <div>
+                                        <p class="menu-date">${ meals.date }</p>
+                                        <p class="menu">
+                                                <br>
+                                                ${ meals.soup }
+                                                <br>
+                                                ${ meals.main_dish }
+                                                <br>
+                                                ${ meals.dessert }
+                                        </p>
+                                    </div>
+                                </div>
+
+
+                                {% for date, meal in house.menu %}
+                                    <div class="level-item">
+                                        <div>
+                                            <p class="menu-date">{{ date|date("Y.m.d.") }}</p>
+                                            <p class="menu">
+                                                {% if meal is empty %}
+                                                    <br>
+                                                    Nincs információ
+                                                    <br>
+                                                {% else %}
+                                                    <br>
+                                                    {{ meal.soup }}
+                                                    <br>
+                                                    {{ meal.main_dish }}
+                                                    {% if meal.dessert is not empty %}
+                                                        <br>
+                                                        {{ meal.dessert }}
+                                                    {% endif %}
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+
+                {% endfor %}
+
+            </div>
+
+            <div class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-content home-page-search-modal has-text-centered">
+                    <i class="fas fa-spinner fa-pulse"></i>&nbsp;Egy pillanat...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script>
+
+        /**
+         * Data for vue
+         * */
+        var menu = [];
+        {% for house in eating_houses %}
+        {% for date, meal in house.menu %}
+
+            var temp = {};
+            temp.date = "{{ date|date("Y.m.d.") }}";
+
+            {% if meal is empty %}
+                temp.soup = "";
+                temp.main_dish = "";
+                temp.dessert = "";
+            {% else %}
+                temp.soup = "{{ meal.soup }}";
+                temp.main_dish = "{{ meal.main_dish }}";
+                temp.dessert = "";
+            {% if meal.dessert is not empty %}
+                temp.dessert = "{{ meal.dessert }}";
+                {% endif %}
+            {% endif %}
+
+            menu.push(temp);
+        {% endfor %}
+        {% endfor %}
+        console.log(menu);
+
+        /**
+         * Vue initialization
+         * */
+        app = new Vue({
+            delimiters: ['${', '}'],
+            el: '#contact-container',
+            data: {
+                menu: menu
+            },
+        });
+
+
+
+        var default_budapest = [47.4969, 19.0287];
+        var center_coordinates = default_budapest;
+
+        var mymap = L.map('map').setView(center_coordinates, 12);
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoidGVzY28tIiwiYSI6ImNrOWEwbDk0dzBtcTgzZ3BsZDlwd2huNWYifQ.xbmMtFrDY6gb31lMXfCpSA', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1IjoidGVzY28tIiwiYSI6ImNrOWEwbDk0dzBtcTgzZ3BsZDlwd2huNWYifQ.xbmMtFrDY6gb31lMXfCpSA'
+        }).addTo(mymap);
+
+        var markers = [];
+
+        {% for house in eating_houses %}
+            markers[ {{ loop.index0 }} ] = L.marker([{{ house.latitude }}, {{ house.longitude }}]).addTo(mymap);
+            markers[ {{ loop.index0 }} ].bindPopup("{{ house.name }}");
+            //markers[loop.index0].addTo(mymap);
+        {% endfor %}
+
+    </script>
+{% endblock %}

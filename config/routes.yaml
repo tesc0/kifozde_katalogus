@@ -1,0 +1,51 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+admin_index:
+  path: /admin
+  controller: App\Controller\Admin::index
+
+admin_signup:
+  path: /admin/signup
+  controller: App\Controller\Admin::signup
+
+admin_login:
+  path: /admin/login
+  controller: App\Controller\Admin::login
+
+admin_logout:
+  path: /admin/logout
+  controller: App\Controller\Admin::logout
+
+admin_eating_house:
+  path: /admin/eating_house
+  controller: App\Controller\Admin::eatingHouse
+
+admin_new_menu:
+  path: /admin/new_menu
+  controller: App\Controller\Menu::saveMenu
+
+admin_menu:
+  path: /admin/menu
+  controller: App\Controller\Menu::listMenu
+
+admin_menu_edit:
+  path: /admin/menu/{date}
+  controller: App\Controller\Menu::changeMenu
+
+root_main:
+  path: /
+  controller: App\Controller\Site::index
+
+search:
+  path: /search_eating_houses
+  controller: App\Controller\Site::search
+
+add_new_eating_house:
+  path: /admin/new_eating_house
+  controller: App\Controller\Admin::addNewEatinghouse
+
+subscribe:
+  path: /subscribe
+  controller: App\Controller\Site::subscribe

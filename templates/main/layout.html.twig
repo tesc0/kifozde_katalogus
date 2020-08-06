@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block header %}
+        <link rel="stylesheet" href="/assets/css/bulma.min.css" />
+        <link rel="stylesheet" href="/assets/css/animate.css" />
+        <link rel="stylesheet" href="/assets/css/style.css?ver={{ 'now'|date('U') }}" />
+        <link rel="icon" href="/assets/css/favicon.ico" />
+        <title>{% block title %}{% endblock %} - My Webpage</title>
+
+        <script src="https://kit.fontawesome.com/5801a6af80.js" crossorigin="anonymous"></script>
+    {% endblock %}
+
+        <script>
+                var client_coordinate = [];
+        </script>
+</head>
+<body>
+<div id="content">{% block content %}{% endblock %}</div>
+<div id="footer">
+    {% block footer %}
+
+    {% endblock %}
+</div>
+    {% block script %}
+        <script src="/assets/js/script.js?ver={{ 'now'|date('U') }}"></script>
+        <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+    {% endblock %}
+</body>
+</html>

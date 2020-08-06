@@ -1,0 +1,6 @@
+{% extends "layout.html.twig" %}
+
+{% block header %}
+    {{ parent() }}
+    <link rel="stylesheet" href="assets/css/style.css?ver={{ 'now'|date('U') }}" />
+{% endblock %}

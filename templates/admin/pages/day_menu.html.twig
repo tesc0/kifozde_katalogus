@@ -1,0 +1,44 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block content %}
+    <section class="day-menu-change">
+        <div class="container">
+    <h1>{{ date|date("Y.m.d.") }}-ére/ára beállított menü (módosítása)</h1>
+
+    <form action="" method="post">
+        <div class="field">
+            <label for="" class="label">Leves</label>
+            <div class="control">
+                <input type="text" class="input" name="soup" id="soup" value="{{ data[1] }}">
+            </div>
+        </div>
+        <div class="field">
+            <label for="" class="label">Főétel</label>
+            <div class="control">
+                <input type="text" class="input" name="main_dish" id="main_dish" value="{{ data[2] }}">
+            </div>
+        </div>
+        <div class="field">
+            <label for="" class="label">Desszert</label>
+            <div class="control">
+                <input type="text" class="input" name="dessert" id="dessert" value="{{ data[3] }}">
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <button class="button is-primary save-menu-day" data-date="{{ date }}" type="button">Módosítás</button>
+            </div>
+        </div>
+        <article class="message">
+            <div class="message-header">
+                <p></p>
+            </div>
+            <div class="message-body">
+
+            </div>
+        </article>
+    </form>
+
+        </div>
+    </section>
+{% endblock %}

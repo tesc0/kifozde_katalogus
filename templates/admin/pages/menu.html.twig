@@ -1,0 +1,51 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block content %}
+    <section class="admin-menu">
+        <div class="container">
+
+        <h1>A(z) {{ week }}. hétre beállított menü</h1>
+
+        <div class="sub-container">
+            <div class="level">
+                {% for date, meal in data %}
+                    <div class="level-item">
+                        <div>
+                            <p class="menu-date">{{ date|date("Y.m.d.") }}</p>
+                            <p class="menu">
+                            {% if meal is empty %}
+                                <br>
+                                Nincs információ
+                                <br>
+                            {% else %}
+                                <br>
+                                {{ meal.soup }}
+                                <br>
+                                {{ meal.main_dish }}
+                                {% if meal.dessert is not empty %}
+                                    <br>
+                                    {{ meal.dessert }}
+                                {% endif %}
+                            {% endif %}
+                            </p>
+                        </div>
+                        <div>
+                            {% if meal is empty %}
+                                <a href="/admin/menu/{{ date }}" class="button is-light is-warning">A menü felvitele</a>
+                            {% else %}
+                                <a href="/admin/menu/{{ date }}" class="button is-light is-primary">A menü módosítása</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+            {# if "now"|date("N") == 1 or "now"|date("N") == 7 #}
+            <a href="/admin/new_menu" class="button is-primary new-menu">Új menüsor felvétele</a>
+            {# endif #}
+        </div>
+
+
+    </section>
+{% endblock %}

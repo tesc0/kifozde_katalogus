@@ -1,0 +1,84 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block content %}
+    <section class="eating-house-data">
+
+        <div class="container">
+            <h1>Üdv {{ user.username }}!</h1>
+            {% if(data.name is not empty) %}
+                <p class="info data-change">Ezen az oldalon tudod módosítani a kifőzde adatait, elérhetőségét.</p>
+            {% else %}
+                <p class="info data-new">Ezen az oldalon tudsz hozzáadni egy új kifőzdét.</p>
+            {% endif %}
+
+            <article class="message">
+                <div class="message-header">
+                    <p></p>
+                </div>
+                <div class="message-body">
+
+                </div>
+            </article>
+
+            <form action="">
+                <div class="field">
+                    <label for="" class="label">Név</label>
+                    <div class="control">
+                        <input type="text" name="name" id="name" class="input" value="{{ data.name }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">Kapcsolattartó</label>
+                    <div class="control">
+                        <input type="text" name="contact" id="contact" class="input" value="{{ data.contact }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">Telefon</label>
+                    <div class="control">
+                        <input type="text" name="phone" id="phone" class="input" value="{{ data.phone }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">Weboldal</label>
+                    <div class="control">
+                        <input type="text" name="website" id="website" class="input" value="{{ data.website }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">Irányítószám</label>
+                    <div class="control">
+                        <input type="text" name="zip" id="zip" class="input" value="{{ data.zip }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">Kerület</label>
+                    <div class="control">
+                        <input type="number" min="1" max="23" name="district" id="district" class="input" value="{{ data.district }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">Cím</label>
+                    <div class="control">
+                        <input type="text" name="address" id="address" class="input" value="{{ data.address }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">Bemutatkozás</label>
+                    <div class="control">
+                        <textarea class="textarea has-fixed-size" name="introduction" id="introduction">{{ data.introduction }}</textarea>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        {% if(data.name is not empty) %}
+                            <button class="button is-primary data-save" type="button">Mentés</button>
+                        {% else %}
+                            <button class="button is-primary data-save-new" type="button">Mentés</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

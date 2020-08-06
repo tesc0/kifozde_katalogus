@@ -1,0 +1,69 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block content %}
+    <section class="admin-new-menu">
+        <div class="container">
+
+            <h1>Új menü megadása a(z) {{ week }}. hétre</h1>
+
+            <article class="message">
+                <div class="message-header">
+                    <p></p>
+                </div>
+                <div class="message-body">
+
+                </div>
+            </article>
+
+            <div class="sub-container">
+                <div class="level">
+                    {% for day in dates %}
+                        <div class="level-item">
+                            <div>
+                                <p class="menu-date">{{ day|date("Y.m.d.") }}</p>
+                                <form action="" method="post">
+                                    <div class="field">
+                                        <label for="" class="label">Leves</label>
+                                        <div class="control">
+                                            <input type="text" class="input soup" name="soup" data-date="{{ day }}">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label for="" class="label">Főétel</label>
+                                        <div class="control">
+                                            <input type="text" class="input maindish" name="main_dish" data-date="{{ day }}">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label for="" class="label">Desszert</label>
+                                        <div class="control">
+                                            <input type="text" class="input dessert" name="dessert" data-date="{{ day }}">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="save-new-menu" class="button is-primary">Mentés</button>
+            </div>
+        </div>
+
+        <div class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-content new-menu-confirm-modal">
+                Nem minden napra adtál meg legalább egy levest és főételt, biztos, hogy menteni szeretnéd?
+
+                <div class="btn-container">
+                    <button type="button" id="save_new_menu_confirm" class="button is-primary">Igen, mentés</button>
+                    <button type="button" id="save_new_menu_cancel" class="button">Nem, mégsem</button>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+{% endblock %}
